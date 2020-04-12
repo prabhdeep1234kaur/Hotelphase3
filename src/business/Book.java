@@ -3,7 +3,7 @@ package business;
 public class Book {
 	private String fname;
 	private String lname;
-	private String roomtype;
+	private String roomnum;
 	
 	public String getFirstName() {
 		return fname;
@@ -18,16 +18,16 @@ public class Book {
 	public void setLastName(String lname) {
 		this.lname = lname;
 	}
-	public String getRoomType() {
-		return roomtype;
+	public String getRoomNum() {
+		return roomnum;
 	}
-	public void setRoomType(String roomtype) {
-		this.roomtype = roomtype;
+	public void setRoomNum(String roomnum) {
+		this.roomnum = roomnum;
 	}
 	
-	public Book(String fname, String lname,String roomtype) {
+	public Book(String fname, String lname,String roomnum) {
 		this.fname = fname;
 		this.lname = lname;
-		this.roomtype=roomtype;
+		this.roomnum=roomnum;
 	}
 }

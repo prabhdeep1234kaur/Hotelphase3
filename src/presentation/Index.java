@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -114,9 +115,16 @@ public class Index  extends JFrame{
 	
 	private class NewBookEventHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			BookingFrame frame = new BookingFrame();
-			frame.setSize(1000,700);
-			frame.setVisible(true);
+			BookingFrame frame;
+			try {
+				frame = new BookingFrame();
+				frame.setSize(1000,700);
+				frame.setVisible(true);
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
 	}
 	
@@ -130,10 +138,17 @@ public class Index  extends JFrame{
 	
 	private class RoomEventHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			RoomPanel frame = new RoomPanel();
-			frame.setTitle("CUSTOMER LOG");
-			frame.setLocationRelativeTo(null);
-			frame.setSize(500,500);
+			RoomPanel frame;
+			try {
+				frame = new RoomPanel();
+				frame.setTitle("Room info");
+				frame.setLocationRelativeTo(null);
+				frame.setSize(500,500);
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
 	}
 	

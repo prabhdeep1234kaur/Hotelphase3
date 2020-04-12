@@ -1,11 +1,15 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import	javax.swing.*;
 
 import business.Room;
 import data.DAOFactory;
+import data.DBCustomer;
 import data.RoomDAO;
 import javax.swing.GroupLayout.Alignment;
 
@@ -14,14 +18,18 @@ public class RoomPanel extends JFrame{
 	private JComboBox type,number;
 	private JButton butSave;
 	private JRadioButton c1,c2,c3;
-	String roomType[] = {"KING ROOM","QUEEN ROOM","WHEELCHAIR ACCESSIBLE","KING DELUX"};
+	//String roomType[] = {"KING ROOM","QUEEN ROOM","WHEELCHAIR ACCESSIBLE","KING DELUX"};
 	String roomNo[] = {"101","102","103","104","105","106","201","202","203","204","205","206"};
 	private JPanel panel;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton_1;
 	String roomstatus;
 
-	public RoomPanel() {
+	
+	private DBCustomer db=null;
+	ResultSet result;
+	
+	public RoomPanel() throws ClassNotFoundException, SQLException {
 		
 		ImageIcon bg_img = new ImageIcon("images/images.jpg");
 		Image img = bg_img.getImage();
@@ -33,9 +41,34 @@ public class RoomPanel extends JFrame{
 		
 		number=new JComboBox(roomNo);
 		number.setBounds(80,50,90,20);
+
 		
-		type=new JComboBox(roomType);
+		/* room type */
+		db=new DBCustomer();
+		String[] roomType1 = new String[10];
+		try {
+			result = db.getAllRoomTypes();
+			if(result.next()) {
+				 int i=0;
+				 while (result.next()) {
+					 i ++;
+					 //Rlist.add(result.getString("room_type"));
+					 roomType1[i] = result.getString("room_type");
+				 }
+			}else {
+				JOptionPane.showMessageDialog(null, "No Guests Found. ");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null,e1.getMessage());
+		}
+		//JSONArray jsArray = new JSONArray(Rlist);
+		
+		type=new JComboBox(roomType1);
 		type.setBounds(80,50,90,20);
+		
+		
+		/**/
 		
 		rdbtnNewRadioButton = new JRadioButton("Vacant");
 		
@@ -106,7 +139,7 @@ public class RoomPanel extends JFrame{
 	}
 	
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ClassNotFoundException, SQLException {
 		RoomPanel frame = new RoomPanel();
 		frame.setTitle("ROOM DATABASE");frame.pack();
 		frame.setLocationRelativeTo(null);

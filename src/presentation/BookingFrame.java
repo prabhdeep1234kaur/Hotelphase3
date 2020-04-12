@@ -6,29 +6,36 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import	javax.swing.*;
 import business.Book;
 import data.DAOFactory;
 import data.DAOFactoryb;
+import data.DBCustomer;
 import data.BookDAO;
 import java.util.*;
 public class BookingFrame extends JFrame{
 	
-	private JLabel fname,lname,email,numOfAdults,noOfChild,roomType,checkin,checkout,cc,rate;
-	private JComboBox fName,lName,type,day,month,year,day1;
-	private JTextField txtEmail,txtnumOfAdults,txtnoOfChild,ccDetail;
+	private JLabel fname,lname,email,numOfAdults,noOfChild,roomType,checkin,checkout,cc,rate,num;
+	private JComboBox type,day,month,year,day1;
+	private JTextField fName,lName,txtEmail,txtnumOfAdults,txtnoOfChild,ccDetail,number;
 	private JButton cal,save;
 	String roomTypes[] = {"KING ROOM","QUEEN ROOM","WHEELCHAIR ACCESSIBLE","KING DELUX"};
 	private BookDAO bDao = DAOFactoryb.getBookDAO();
 	JLabel background;
+	
+
+	private DBCustomer db=null;
+	ResultSet result;
 	
 	
 	/**/
 	String[] values=new String[6];
 	//JComboBox<String>[] combos=new JComboBox<String>[6];
 	/**/
-	public BookingFrame() {
+	public BookingFrame()  throws ClassNotFoundException, SQLException{
 		
 		/*File*/
 		try{
@@ -52,9 +59,7 @@ public class BookingFrame extends JFrame{
             }*/
             br.close(); 
             //values = tmp.toArray(new String[3]);
-    	    for(int i=0;i<values.length;i++) {
-    	    	fName=new JComboBox(values);
-    	    }
+    
         }       
         catch (Exception e){
             e.printStackTrace();
@@ -76,11 +81,33 @@ public class BookingFrame extends JFrame{
 		Container c = getContentPane();
 		c.setLayout(null);
 		
-		fname = new JLabel("FIRST NAME");
+		fname = new JLabel("Customer Name");
 		fname.setBounds(120,50,100,20);
 		background.add(fname);
+
+		db=new DBCustomer();
+		String[] customerName = new String[100];
+
+		try {
+			result = db.getAllCustomer();
+			if(result.next()) {
+				 int i=0;
+				 while (result.next()) {
+					 i ++;
+					 //Rlist.add(result.getString("room_type"));
+					 customerName[i] = result.getString("first_name")+" "+result.getString("last_name");
+				 }
+			}else {
+				JOptionPane.showMessageDialog(null, "No Guests Found. ");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null,e1.getMessage());
+		}
+		JComboBox fName = new JComboBox(customerName);
 		
-		/*fName = new JComboBox();*/
+		
+		/*fName = new JTextField();*/
 		fName.setBounds(250,50,150,20);
 		background.add(fName);
 		
@@ -88,7 +115,7 @@ public class BookingFrame extends JFrame{
 		lname.setBounds(120,100,100,20);
 		background.add(lname);
 		
-		lName = new JComboBox();
+		lName = new JTextField();
 		lName.setBounds(250,100,150,20);
 		background.add(lName);
 		
@@ -172,6 +199,14 @@ public class BookingFrame extends JFrame{
 		type.setBounds(240,450,150,20);
 		background.add(type);
 		
+		num = new JLabel("ROOM NUMBER  ");
+		num.setBounds(70,500,200,20);
+		background.add(num);
+		
+		number = new JTextField();
+		number.setBounds(240,500,100,20);
+		background.add(number);
+		
 		cal = new JButton("CALCULATE");
 		cal.setBounds(250,550,150,40);
 		background.add(cal);
@@ -201,11 +236,11 @@ public class BookingFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if (!isValidData())
 				return;
-			String firstName = (String) fName.getSelectedItem();
-			String lastName = (String) lName.getSelectedItem();
-			String rtype = (String) type.getSelectedItem();
+			String firstName = (String) fName.getText();
+			String lastName = (String) lName.getText();
+			String roomnumber = (String) number.getText();
 			
-			Book br = new Book(firstName,lastName,rtype);
+			Book br = new Book(firstName,lastName,roomnumber);
 			
 			if (bDao.addBook(br)) {
 				String result = "INFORMATION SAVED";
@@ -225,7 +260,7 @@ public class BookingFrame extends JFrame{
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		BookingFrame frame= new BookingFrame();
 		frame.setTitle("BOOKINGS");
 		frame.setLocationRelativeTo(null);

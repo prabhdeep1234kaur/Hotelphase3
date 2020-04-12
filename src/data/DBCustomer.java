@@ -116,5 +116,19 @@ public class DBCustomer {
 	}
     
     /*****************booking **********************/
-   
+    
+    
+    //getroom types
+    public ResultSet getAllRoomTypes() {
+    	try {
+			stm = conn.createStatement();
+            String query = "select * from hotel_room_types";
+            rs = stm.executeQuery(query);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString() + "\n error coming from returning DB Operation");
+        }
+		return rs;
+    }
+    
+    
 }

@@ -22,7 +22,7 @@ public class BookDAORandom implements BookDAO{
 			count = (int)dataFile.length()/BookConstants.RECORD_SIZE;
 			if(i<=count){
 				dataFile.seek((i-1) * BookConstants.RECORD_SIZE);
-				String roomtype = (readString(dataFile,BookConstants.ROOM_TYPE_SIZE));
+				String roomtype = (readString(dataFile,BookConstants.ROOM_NUMBER_SIZE));
 				String fName = (readString(dataFile,BookConstants.FIRST_NAME_SIZE));
 				String lName = (readString(dataFile,BookConstants.LAST_NAME_SIZE));
 				
@@ -60,7 +60,7 @@ public class BookDAORandom implements BookDAO{
 				{
 				dataFile.seek(i * BookConstants.RECORD_SIZE);
 				dataFile.seek((i-1) * BookConstants.RECORD_SIZE);
-				String roomtype = (readString(dataFile,BookConstants.ROOM_TYPE_SIZE));
+				String roomtype = (readString(dataFile,BookConstants.ROOM_NUMBER_SIZE));
 				String fName = (readString(dataFile,BookConstants.FIRST_NAME_SIZE));
 				String lName = (readString(dataFile,BookConstants.LAST_NAME_SIZE));
 				
@@ -96,7 +96,7 @@ public class BookDAORandom implements BookDAO{
 			dataFile.seek(count * BookConstants.RECORD_SIZE);
 			writeString(dataFile, BookConstants.FIRST_NAME_SIZE, book.getFirstName());
 			writeString(dataFile, BookConstants.LAST_NAME_SIZE, book.getLastName());
-			writeString(dataFile, BookConstants.ROOM_TYPE_SIZE, book.getRoomType());
+			writeString(dataFile, BookConstants.ROOM_NUMBER_SIZE, book.getRoomNum());
 			//dataFile.writeString(room.getRoomNum());
 			success = true;
 		} catch (FileNotFoundException e) {
