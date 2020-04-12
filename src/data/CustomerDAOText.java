@@ -39,11 +39,12 @@ private File customerFile = null;
 			for (CustomerInfo c : customers) {
 				out.print(c.getfirstName() + FIELD_SEP);
 				out.print(c.getlastName() + FIELD_SEP);
-				out.println(c.getPhoneNumber() + FIELD_SEP);
-				out.println(c.getCountry() + FIELD_SEP);
-				out.println(c.getProvince() + FIELD_SEP);	
-				out.println(c.getCity() + FIELD_SEP);	
-				out.println(c.getZip() + FIELD_SEP);	
+				out.print(c.getPhoneNumber() + FIELD_SEP);
+				out.print(c.getAddress() + FIELD_SEP);
+				out.print(c.getCity() + FIELD_SEP);
+				out.print(c.getProvince() + FIELD_SEP);
+				out.print(c.getCountry() + FIELD_SEP);
+				out.println(c.getZip());	
 			}
 		} catch (IOException ioe) { 
 			ioe.printStackTrace();
@@ -91,12 +92,12 @@ private File customerFile = null;
 				String[] columns = line.split(FIELD_SEP);
 				String firstName = columns[0];
 				String lastName = columns[1];
-				String phoneNumber = columns[2];
-				String country = columns[3];				
-				String province = columns[4];
-				String city = columns[5];
-				String zip = columns[6];
-				String address=columns[7];
+				String phoneNumber =columns[2];
+				String address=  columns[3];
+				String city =  columns[4];				
+				String province = columns[5];
+				String country =  columns[6];
+				String zip =  columns[7];
 				//create customer Object
 				CustomerInfo c = new CustomerInfo(firstName,lastName,phoneNumber,country,province,city,zip,address);
 				customers.add(c);

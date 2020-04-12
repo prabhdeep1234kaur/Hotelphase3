@@ -31,7 +31,7 @@ public class CustomerDAOBinary implements CustomerDAO {
 			out = new DataOutputStream(new FileOutputStream(customerFile,true));
 			for (CustomerInfo c : customers) {
 				out.writeUTF(c.getfirstName());
-				out.writeUTF(c.getlastName());
+				out.writeUTF(c.getfirstName());
 				out.writeUTF(c.getPhoneNumber());
 				out.writeUTF(c.getCountry());
 				out.writeUTF(c.getProvince());
@@ -86,7 +86,7 @@ public class CustomerDAOBinary implements CustomerDAO {
 				String zip=in.readUTF();			
 				String address=in.readUTF();		
 				String phoneno=in.readUTF();
-				CustomerInfo c = new CustomerInfo(firstName,lastName,phoneno,country,province,city,zip,address);
+				CustomerInfo c = new CustomerInfo(firstName,lastName,address,phoneno,city,country,province,zip);
 				customers.add(c);
 			}
 		} catch (EOFException eofe) {

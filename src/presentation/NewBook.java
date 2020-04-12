@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.text.DateFormat;
 import java.util.Date;
 
-public  class NewBook   extends JFrame{
+public  class NewBook  extends JFrame{
 	private JLabel heading;
 
 	JPanel bookPanel;

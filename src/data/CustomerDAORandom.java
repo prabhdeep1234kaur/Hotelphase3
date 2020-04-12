@@ -22,23 +22,26 @@ public class CustomerDAORandom implements CustomerDAO {
 	@Override
 	public CustomerInfo getCustomer(String firstName) {
 		// TODO Auto-generated method stub
-		int i=Integer.parseInt(firstName);
+		//int i=Integer.parseInt(firstName);
+		String i=firstName;
+		
 		try {
 			dataFile=new RandomAccessFile(personFile,"rw");
 			count=(int) (dataFile.length()/CustomerConstants.RECORD_SIZE);
-			if(i<=count) {
-				dataFile.seek((i-1)*CustomerConstants.RECORD_SIZE);
-				String firstName1=readString(dataFile,CustomerConstants.FIRST_NAME_SIZE);
-				String lastName1=readString(dataFile,CustomerConstants.LAST_NAME_SIZE);
-				String address = readString(dataFile,CustomerConstants.ADDRESS_SIZE);
-				String phoneno = readString(dataFile,CustomerConstants.PHONE_NUM_SIZE);
-				String country = readString(dataFile,CustomerConstants.COUNTRY_SIZE);
-				String province = readString(dataFile,CustomerConstants.PROVINCE_SIZE);
-				String city = readString(dataFile,CustomerConstants.CITY_SIZE);
-				String zip = readString(dataFile,CustomerConstants.ZIP_SIZE);
-				CustomerInfo customer = new CustomerInfo(firstName1,lastName1,address,phoneno,country,province,city,zip);
+			//if(i<=count) {
+				//dataFile.seek((i-1)*CustomerConstants.RECORD_SIZE);
+				dataFile.seek((count-1)*CustomerConstants.RECORD_SIZE);
+				String firstName1 = readString(dataFile,CustomerConstants.FIRST_NAME_SIZE);
+				String lastName1  = readString(dataFile,CustomerConstants.LAST_NAME_SIZE);
+				String address    = readString(dataFile,CustomerConstants.ADDRESS_SIZE);
+				String phoneno    = readString(dataFile,CustomerConstants.PHONE_NUM_SIZE);
+				String city       = readString(dataFile,CustomerConstants.CITY_SIZE);
+				String province   = readString(dataFile,CustomerConstants.PROVINCE_SIZE);
+				String country    = readString(dataFile,CustomerConstants.COUNTRY_SIZE);
+				String zip        = readString(dataFile,CustomerConstants.ZIP_SIZE);
+				CustomerInfo customer = new CustomerInfo(firstName1,lastName1,address,phoneno,city,province,country,zip);
 				return customer;
-			}
+			//}
 		}catch(FileNotFoundException e) {
 			System.out.println("error");
 			e.printStackTrace();
@@ -67,15 +70,15 @@ public class CustomerDAORandom implements CustomerDAO {
 			count=(int) (dataFile.length()/CustomerConstants.RECORD_SIZE);
 			for(int i=0;i<count;i++) {
 				dataFile.seek(i*CustomerConstants.RECORD_SIZE);
-				String firstName1=readString(dataFile,CustomerConstants.FIRST_NAME_SIZE);
-				String lastName1=readString(dataFile,CustomerConstants.LAST_NAME_SIZE);
-				String address = readString(dataFile,CustomerConstants.ADDRESS_SIZE);
-				String phoneno = readString(dataFile,CustomerConstants.PHONE_NUM_SIZE);
-				String country = readString(dataFile,CustomerConstants.COUNTRY_SIZE);
-				String province = readString(dataFile,CustomerConstants.PROVINCE_SIZE);
-				String city = readString(dataFile,CustomerConstants.CITY_SIZE);
-				String zip = readString(dataFile,CustomerConstants.ZIP_SIZE);
-				CustomerInfo customer = new CustomerInfo(firstName1,lastName1,address,phoneno,country,province,city,zip);
+				String firstName1 = readString(dataFile,CustomerConstants.FIRST_NAME_SIZE);
+				String lastName1  = readString(dataFile,CustomerConstants.LAST_NAME_SIZE);
+				String address    = readString(dataFile,CustomerConstants.ADDRESS_SIZE);
+				String phoneno    = readString(dataFile,CustomerConstants.PHONE_NUM_SIZE);
+				String city       = readString(dataFile,CustomerConstants.CITY_SIZE);
+				String province   = readString(dataFile,CustomerConstants.PROVINCE_SIZE);
+				String country    = readString(dataFile,CustomerConstants.COUNTRY_SIZE);
+				String zip        = readString(dataFile,CustomerConstants.ZIP_SIZE);
+				CustomerInfo customer = new CustomerInfo(firstName1,lastName1,address,phoneno,city,province,country,zip);
 				customers.add(customer);
 				// tests.add(test);
 			}
@@ -108,8 +111,8 @@ public class CustomerDAORandom implements CustomerDAO {
 			
 			writeString(dataFile,CustomerConstants.FIRST_NAME_SIZE,customer.getfirstName());
 			writeString(dataFile,CustomerConstants.LAST_NAME_SIZE,customer.getlastName());
-			writeString(dataFile,CustomerConstants.PHONE_NUM_SIZE,customer.getPhoneNumber());
 			writeString(dataFile,CustomerConstants.ADDRESS_SIZE,customer.getAddress());
+			writeString(dataFile,CustomerConstants.PHONE_NUM_SIZE,customer.getPhoneNumber());
 			writeString(dataFile,CustomerConstants.CITY_SIZE,customer.getCity());
 			writeString(dataFile,CustomerConstants.PROVINCE_SIZE,customer.getProvince());
 			writeString(dataFile,CustomerConstants.COUNTRY_SIZE,customer.getCountry());
@@ -156,4 +159,6 @@ public class CustomerDAORandom implements CustomerDAO {
 		}
 		return sb.toString();
 	}
+
+	
 }

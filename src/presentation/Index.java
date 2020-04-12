@@ -4,6 +4,8 @@ package presentation;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import javax.swing.*;
 
 
@@ -17,8 +19,8 @@ public class Index  extends JFrame{
 		/*sidebar*/
 		JPanel sidebar;
 		sidebar = new JPanel();
-		sidebar.setBackground( new Color(255, 255, 255, 80));
-		sidebar.setBounds(0,0,100,700);
+		sidebar.setBackground(new Color(255, 255, 255, 80));
+		sidebar.setBounds(0,0,200,700);
 		
 		/*welcome msg*/
 		JPanel wlcm;
@@ -33,24 +35,40 @@ public class Index  extends JFrame{
 		wlcm.add(wlcm_txt);
 		
 		/*Buttons*/
-		JButton addCus = new JButton("Add Guest");
+		JMenuItem addCus = new JMenuItem("Add Guest");
 		addCus.setBounds(0,0,100,700);
 		addCus.setBackground(new Color(0, 255, 153 ));
-		addCus.addActionListener(new NewGuestEventHandler());//to open the new gues
+		addCus.addActionListener(new NewGuestEventHandler());//to open the new guest
+		addCus.setMnemonic(KeyEvent.VK_G);
+		addCus.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,ActionEvent.CTRL_MASK));
+		//addCus.addActionListener(new ExitEventHandler());
 		
-		JButton newBook = new JButton("New Booking");
+		JMenuItem newBook = new JMenuItem("New Booking");
 		newBook.setBounds(0,0,100,700);
 		newBook.setBackground(new Color(0, 255, 153 ));
 		newBook.addActionListener(new NewBookEventHandler());//to open the new booking
+		newBook.setMnemonic(KeyEvent.VK_B);
+		newBook.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,ActionEvent.CTRL_MASK));
 		
-		JButton rooms = new JButton("Manage rooms");
+		JMenuItem  rooms = new JMenuItem("Manage rooms");
 		rooms.setBounds(0,0,100,700);
 		rooms.setBackground(new Color(0, 255, 153 ));
+		rooms.addActionListener(new RoomEventHandler());
+		rooms.setMnemonic(KeyEvent.VK_P);
+		rooms.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,ActionEvent.CTRL_MASK));
 		
-		JButton loginfo = new JButton("Log Info");
+		
+		JMenuItem exit_b = new JMenuItem("Exit");
+		exit_b.setMnemonic(KeyEvent.VK_X);
+		exit_b.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK));
+		exit_b.addActionListener(new ExitEventHandler());
+		exit_b.setBounds(0,0,100,700);
+		exit_b.setBackground(new Color(0, 255, 153 ));
+		
+		/*JButton loginfo = new JButton("Log Info");
 		loginfo.setBounds(0,0,100,700);
 		loginfo.setBackground(new Color(0, 255, 153 ));
-		loginfo.addActionListener(new LogInfoEventHandler()); //to open guest info
+		loginfo.addActionListener(new LogInfoEventHandler()); //to open guest info*/
 		
 		
 		/*background*/
@@ -68,11 +86,17 @@ public class Index  extends JFrame{
 		sidebar.add(addCus);
 		sidebar.add(newBook);
 		sidebar.add(rooms);
-		sidebar.add(loginfo);
+		sidebar.add(exit_b);
+		//sidebar.add(loginfo);
 		background.setBounds(0,0,900,600);
 		
 		add(background);
 		setVisible(true);
+	}
+	private class ExitEventHandler implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            System.exit(0);
+        }
 	}
 	
 	public static void main(String args[]) {
@@ -87,8 +111,8 @@ public class Index  extends JFrame{
 	
 	private class NewBookEventHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			NewBook frame = new NewBook();
-			frame.setSize(1200,700);
+			BookingFrame frame = new BookingFrame();
+			frame.setSize(1000,700);
 			frame.setVisible(true);
 		}
 	}
@@ -97,16 +121,16 @@ public class Index  extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			CustomerFrame frame = new CustomerFrame();
 			frame.setTitle("CUSTOMER DATABASE");
-			frame.setSize(1000,500);
+			frame.setSize(1000,1000);
 		}
 	}
 	
-	private class LogInfoEventHandler implements ActionListener{
+	private class RoomEventHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			CustomerLog frame = new CustomerLog();
+			RoomPanel frame = new RoomPanel();
 			frame.setTitle("CUSTOMER LOG");
 			frame.setLocationRelativeTo(null);
-			frame.setSize(1100,700);
+			frame.setSize(500,500);
 		}
 	}
 	

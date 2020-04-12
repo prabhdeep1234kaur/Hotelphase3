@@ -3,21 +3,21 @@ package business;
 public class CustomerInfo  {
 	private String firstName;
 	private String lastName;
-	private String phoneNumber;
-	private String country;
-	private String province;
-	private String city;
-	private String zip;
 	private String address;
+	private String phoneNumber;
+	private String city;
+	private String province;
+	private String country;
+	private String zip;
 	
-	public CustomerInfo(String firstName,String lastName, String phoneNumber,String country,String province,String city, String zip, String address) {
+	public CustomerInfo(String firstName,String lastName,String address,String phoneNumber,String city,String province,String country,String zip) {
 		this.firstName=firstName;
 		this.lastName=lastName;
-		this.phoneNumber=phoneNumber;
-		this.country=country;
-		this.province=province;
-		this.city=city;	
 		this.address = address;
+		this.phoneNumber=phoneNumber;
+		this.city=city;	
+		this.province=province;
+		this.country=country;
 		this.zip=zip;
 	}
 	public String getfirstName() {
@@ -28,9 +28,16 @@ public class CustomerInfo  {
 		
 		return lastName;
 	}
+	public String getAddress() {
+		return address;
+	}
 	public String getPhoneNumber() {
 		
 		return phoneNumber;
+	}
+	public String getCity() {
+		
+		return city;
 	}
 	public String getCountry() {
 		
@@ -40,15 +47,8 @@ public class CustomerInfo  {
 		
 		return province;
 	}
-	public String getCity() {
-		
-		return city;
-	}
 	public String getZip() {
 		
 		return zip;
-	}
-	public String getAddress() {
-		return address;
 	}
 }
