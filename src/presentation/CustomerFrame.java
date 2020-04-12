@@ -11,6 +11,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -25,14 +28,16 @@ import javax.swing.*;
 
 
 import data.DAOFactoryC;
+import data.DBCustomer;
+import data.DBMain;
 //import presentation.Customers.DisplayButtonHandler;
 //import presentation.Customers.FindButtonHandler;
 import data.CustomerDAO;
 
 public class CustomerFrame extends JFrame{
 
-	private JLabel fname,lname,address,phone,membership,lcity,lpro,lpincode,lc;
-	private JTextField tFname,tLname,tAddress,tPhone,tcity,tPro,tpincode,tc;
+	private JLabel cidname,fname,lname,address,phone,membership,lcity,lpro,lpincode,lc;
+	private JTextField tCidname,tFname,tLname,tAddress,tPhone,tcity,tPro,tpincode,tc;
 	private JButton add,del;
 	private JComboBox membershipSatus;
 	//private JPanel CustomerPanel;
@@ -44,8 +49,9 @@ public class CustomerFrame extends JFrame{
 	private CustomerDAO cDao = DAOFactoryC.getCutstomerDAO();
 
 	private static JTable customerTable;
-	
-	
+	private DBCustomer db=null;
+	ResultSet result;
+	private JButton btnDisplayDB;
 	public CustomerFrame() {
 		
 		/*background*/
@@ -56,7 +62,7 @@ public class CustomerFrame extends JFrame{
 		bg_img = new ImageIcon(temp_img);
 		 background = new JLabel("",bg_img,JLabel.CENTER);
 		background.setBackground(new Color(0, 128, 0));
-		background.setBounds(0,0,900,600);
+		background.setBounds(0,10,974,705);
 		
 		//declare panel
 		guestPanel = new JPanel();
@@ -65,7 +71,17 @@ public class CustomerFrame extends JFrame{
 		//guestPanel.setBounds(566,50,400,350);
 	
 		//form info
+		//customer id
+		cidname = new JLabel("Customer ID");
+		cidname.setBounds(20,10,100,20);
+		cidname.setOpaque(true);
+		cidname.setBackground(Color.white);
+		background.add(cidname);
 		
+		tCidname = new JTextField();
+		tCidname.setBounds(130,10,190,25);
+		tCidname.setEditable(false);
+		background.add(tCidname);
 		//first
 		fname = new JLabel("FIRST NAME");
 		fname.setBounds(20,50,100,20);
@@ -167,12 +183,9 @@ public class CustomerFrame extends JFrame{
 		btnFindButton.setBackground(Color.cyan);
 		background.add(btnFindButton);
 		
-		del = new JButton("DELETE");
-		del.setBounds(40,500,100,40);
-		del.setBackground(Color.red);
-		//background.add(del);
 		
-		JButton btnDisplay = new JButton("Display");
+		
+		JButton btnDisplay = new JButton("Display File");
 		btnDisplay.setBounds(160,500,100,40);
 		btnDisplay.setBackground(Color.yellow);
 		background.add(btnDisplay);
@@ -181,6 +194,7 @@ public class CustomerFrame extends JFrame{
 		btnRefresh.setBounds(40,500,100,40);
 		btnRefresh.setBackground(Color.orange);
 		background.add(btnRefresh);
+		getContentPane().setLayout(null);
 		
 		//table new
 		JScrollPane scrollPane = new JScrollPane();
@@ -210,13 +224,24 @@ public class CustomerFrame extends JFrame{
 		table.setRowHeight(25);
 		
 		//panel
-		add(background);
+		getContentPane().add(background);
+		
+		btnDisplayDB = new JButton("Display DB");
+		btnDisplayDB.setBounds(290, 500,100,40);
+		btnDisplayDB.setBackground(Color.orange);
+		getContentPane().add(btnDisplayDB);
 		setVisible(true);
+		
+		del = new JButton("DELETE");
+		del.setBounds(350,500,100,40);
+		del.setBackground(Color.red);
+		background.add(del);
 		
 		//buttons listeners
 		add.addActionListener(new SaveButtonHandler());
 		btnFindButton.addActionListener(new FindButtonHandler());
 		btnDisplay.addActionListener(new DisplayButtonHandler());
+		btnDisplayDB.addActionListener(new DisplayDBButtonHandler());
 		del.addActionListener(new DeleteButtonHandler());
 		btnRefresh.addActionListener(new RefreshButtonHandler());
 	}
@@ -234,11 +259,18 @@ public class CustomerFrame extends JFrame{
 			String city = tcity.getText();
 			String zip = tpincode.getText();
 			String address = tAddress.getText();
-			CustomerInfo cus = new CustomerInfo(lastName,firstName,address,phoneno,city,province,country,zip);
+			CustomerInfo cus = new CustomerInfo(firstName,lastName,address,phoneno,city,province,country,zip);
 			
 			if (cDao.addCustomer(cus)) {
 				String result = "First Name: " + firstName + "\n last Name: " + lastName + "\n";
 				JOptionPane.showMessageDialog(null, result, "Info Save", JOptionPane.INFORMATION_MESSAGE);
+				try {
+					db = new DBCustomer();
+					db.insertCustomer(cus);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null,e1.getMessage());
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Not Saved!", "Info Save", JOptionPane.WARNING_MESSAGE);
 			}
@@ -271,35 +303,39 @@ public class CustomerFrame extends JFrame{
 	private class FindButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
-			String search = JOptionPane.showInputDialog(null, "ENTER CUSTOMER NAME", "CUSTOMER SEARCH",JOptionPane.QUESTION_MESSAGE);
+			String search = JOptionPane.showInputDialog(null, "ENTER LAST NAME", "CUSTOMER SEARCH",JOptionPane.QUESTION_MESSAGE);
 			tFname.setText(search);
 			String targetName = tFname.getText();
-			//System.out.println(targetName);
-			business.CustomerInfo customer = cDao.getCustomer(targetName);				
-			if (customer != null) {
-				tFname.setText(customer.getfirstName());
-				tLname.setText(customer.getlastName());
-				tAddress.setText(customer.getAddress());
-				tPhone.setText(customer.getPhoneNumber());
-				tcity.setText(customer.getCity());
-				tPro.setText(customer.getProvince());
-				tc.setText(customer.getCountry());
-				tpincode.setText(customer.getZip());
-			} else {
-				JOptionPane.showMessageDialog(null,"CUSTOMER DOESNOT EXIST");
-				tFname.setText("");
-				tLname.setText("");
-				tPhone.setText("");
-				tAddress.setText("");
-				tc.setText("");
-				tcity.setText("");
-				tPro.setText("");
-				tpincode.setText("");
+			try {
+				db=new DBCustomer();
+			} catch (ClassNotFoundException | SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			try {
+				result = db.SeachCustomer(targetName);
+				
+					while(result.next()) {
+						int customerid = result.getInt("customer_id");
+						tFname.setText(result.getString("first_name"));
+						tLname.setText(result.getString("last_name"));
+						tPhone.setText(result.getString("phone_num"));
+						tAddress.setText(result.getString("address"));
+						tcity.setText(result.getString("city"));
+						tPro.setText(result.getString("province"));
+						tpincode.setText(result.getString("code"));
+						tc.setText(result.getString("country"));
+						tCidname.setText(String.valueOf(customerid));
+					}
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null,"hereherre "+e1.toString());
 			}
 		}
 	}
 	
-	//display list
+	//display list from file
 	private class DisplayButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			table.setModel(new DefaultTableModel(new Object[][] {},
@@ -314,35 +350,101 @@ public class CustomerFrame extends JFrame{
 		}
 	}
 	
+	private class DisplayDBButtonHandler implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			try {
+				db=new DBCustomer();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			result = db.getAllCustomer();
+			
+			try {
+				if(result.isBeforeFirst()) {
+					 int i=0;
+					 ArrayList<Object[]> data = new ArrayList<Object[]>();
+					 while (result.next()) {
+						 Object[] row = new Object[]{
+							 
+							 result.getString("last_name"),
+							 result.getString("first_name"),
+							 result.getString("address"),
+							 result.getString("phone_num"),
+							 result.getString("city"),
+							 result.getString("country"),
+							 result.getString("province"),
+							 result.getString("code"),
+							 };
+						 data.add(row);
+					 }
+					 table.setModel(new DefaultTableModel(
+						data.toArray(new Object[data.size()][]),
+		                new String[] {"LAST NAME","FIRST NAME","ADDRESS","PHONE NUMBER","CITY","COUNTRY","province","PINCODE"}
+		              ));
+					 
+				}else {
+					JOptionPane.showMessageDialog(null, "No Users Found. You can add new users. ");
+				}					
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
 	
 	//delete user
 	private class DeleteButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
-			String search = JOptionPane.showInputDialog(null, "ENTER CUSTOMER NAME", "DELETE CUSTOMER",JOptionPane.QUESTION_MESSAGE);
+			String search = JOptionPane.showInputDialog(null, "ENTER LAST NAME", "DELETE CUSTOMER",JOptionPane.QUESTION_MESSAGE);
 			tFname.setText(search);
 			String targetName = tFname.getText();
-			System.out.println(targetName);
-			business.CustomerInfo customer = cDao.getCustomer(targetName);				
-			if (customer != null) {
-					tFname.setText(customer.getfirstName());
-					tLname.setText(customer.getlastName());
-					tPhone.setText(customer.getPhoneNumber());
-				tAddress.setText(customer.getAddress());
-				tc.setText(customer.getCity());
-				tPro.setText(customer.getProvince());
-				tcity.setText(customer.getCity());
-				tpincode.setText(customer.getZip());
-			} else {
-				JOptionPane.showMessageDialog(null,"CUSTOMER DOESNOT EXIST");
-				tFname.setText("");
-				tLname.setText("");
-				tPhone.setText("");
-				tAddress.setText("");
-				tc.setText("");
-				tcity.setText("");
-				tPro.setText("");
-				tpincode.setText("");
+			
+			try {
+				db=new DBCustomer();
+			} catch (ClassNotFoundException | SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			try {
+				result = db.deleteCustomer(targetName);
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
+			result = db.getAllCustomer();
+			
+			try {
+				if(result.isBeforeFirst()) {
+					 int i=0;
+					 ArrayList<Object[]> data = new ArrayList<Object[]>();
+					 while (result.next()) {
+						 Object[] row = new Object[]{
+							 
+							 result.getString("last_name"),
+							 result.getString("first_name"),
+							 result.getString("address"),
+							 result.getString("phone_num"),
+							 result.getString("city"),
+							 result.getString("country"),
+							 result.getString("province"),
+							 result.getString("code"),
+							 };
+						 data.add(row);
+					 }
+					 table.setModel(new DefaultTableModel(
+						data.toArray(new Object[data.size()][]),
+		                new String[] {"LAST NAME","FIRST NAME","ADDRESS","PHONE NUMBER","CITY","COUNTRY","province","PINCODE"}
+		              ));
+					 
+				}else {
+					JOptionPane.showMessageDialog(null, "No Users Found. You can add new users. ");
+				}	
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "error. ");
 			}
 		}
 	}

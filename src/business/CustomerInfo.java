@@ -51,4 +51,31 @@ public class CustomerInfo  {
 		
 		return zip;
 	}
+	
+	//set methods
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public void setlastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+	
 }

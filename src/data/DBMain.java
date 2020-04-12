@@ -4,6 +4,7 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import business.CustomerInfo;
 import business.DBUserData;
 public class DBMain {
 	protected Connection conn=null;
@@ -11,7 +12,7 @@ public class DBMain {
 	protected Statement stm=null;
 	
 	public DBMain() throws SQLException,ClassNotFoundException{
-	this.connect();
+		this.connect();
 	}
 	
 	protected void connect() throws SQLException,ClassNotFoundException{
@@ -115,7 +116,6 @@ public class DBMain {
 	
 	
 	//delete user
-	//update user
 	public void deleteUser(String userName, int user_id) throws Exception{
 		try {
 			 String query = "delete from hotel_users where username='"+userName+"' and user_id="+user_id;
@@ -135,4 +135,6 @@ public class DBMain {
 		rs = stm.executeQuery(sql);
 		rs.first();
 	}
+	
+	
 }

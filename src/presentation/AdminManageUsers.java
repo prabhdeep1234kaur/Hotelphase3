@@ -40,9 +40,6 @@ public class AdminManageUsers  extends JFrame{
 		scrollPane.setBounds(71, 52, 305, 181);
 		getContentPane().add(scrollPane);
 		
-		
-		
-		
 		 tableUsers = new JTable();
 		
 		JButton btnShowUsers = new JButton("Show Users");
@@ -133,8 +130,6 @@ public class AdminManageUsers  extends JFrame{
 		});
 		btnNewUser.setBounds(84, 408, 85, 21);
 		getContentPane().add(btnNewUser);
-		
-		
 		
 		JTextArea textSearch = new JTextArea();
 		textSearch.setBounds(181, 489, 99, 22);
@@ -234,6 +229,17 @@ public class AdminManageUsers  extends JFrame{
 		});
 		btnDelete.setBounds(291, 521, 85, 21);
 		getContentPane().add(btnDelete);
+		
+		JButton btnBackToMain = new JButton("Back To Main Menu");
+		btnBackToMain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LandingPage frame = new LandingPage();
+				frame.setSize(450,400);
+				frame.setVisible(true);
+			}
+		});
+		btnBackToMain.setBounds(388, 521, 162, 21);
+		getContentPane().add(btnBackToMain);
 	}
 	
 	
