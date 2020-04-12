@@ -51,6 +51,13 @@ public class Index  extends JFrame{
 		newBook.setMnemonic(KeyEvent.VK_B);
 		newBook.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,ActionEvent.CTRL_MASK));
 		
+		JMenuItem  booklog = new JMenuItem("Booking Logs");
+		booklog.setBounds(0,0,100,700);
+		booklog.setBackground(new Color(0, 255, 153 ));
+		booklog.addActionListener(new BLogEventHandler());
+		booklog.setMnemonic(KeyEvent.VK_L);
+		booklog.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,ActionEvent.CTRL_MASK));
+		
 		JMenuItem  rooms = new JMenuItem("Manage rooms");
 		rooms.setBounds(0,0,100,700);
 		rooms.setBackground(new Color(0, 255, 153 ));
@@ -87,6 +94,7 @@ public class Index  extends JFrame{
 		sidebar.add(addCus);
 		sidebar.add(newBook);
 		sidebar.add(rooms);
+		sidebar.add(booklog);
 		sidebar.add(exit_b);
 		//sidebar.add(loginfo);
 		background.setBounds(0,0,900,600);
@@ -151,6 +159,21 @@ public class Index  extends JFrame{
 			
 		}
 	}
+	
+	private class BLogEventHandler implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			BookingLog Bframe;
+			
+			Bframe = new BookingLog();
+			Bframe.setTitle("Book Log");
+			Bframe.setLocationRelativeTo(null);
+			Bframe.setSize(500,500);
+			
+			
+		}
+	}
+	
+	
 	
 	
 }

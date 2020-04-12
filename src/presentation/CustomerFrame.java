@@ -245,7 +245,7 @@ public class CustomerFrame extends JFrame{
 				Index frame = new   Index();
 				frame.setTitle("Welcome");
 				frame.setLocationRelativeTo(null);
-				
+				frame.setSize(1000,700);
 				frame.setVisible(true);
 			}
 		});

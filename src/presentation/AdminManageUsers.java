@@ -137,6 +137,7 @@ public class AdminManageUsers  extends JFrame{
 		
 		
 		JTextPane textUserID = new JTextPane();
+		textUserID.setEditable(false);
 		textUserID.setBounds(181, 460, 99, 19);
 		getContentPane().add(textUserID);
 		

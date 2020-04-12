@@ -19,9 +19,9 @@ import java.util.*;
 public class BookingFrame extends JFrame{
 	
 	private JLabel fname,lname,email,numOfAdults,noOfChild,roomType,checkin,checkout,cc,rate,num;
-	private JComboBox type,day,month,year,day1;
-	private JTextField fName,lName,txtEmail,txtnumOfAdults,txtnoOfChild,ccDetail,number;
-	private JButton cal,save;
+	private JComboBox cusName,type,day,month,year,day1,fName;
+	private JTextField lName,txtEmail,txtnumOfAdults,txtnoOfChild,ccDetail,number;
+	private JButton cal,save,back;
 	String roomTypes[] = {"KING ROOM","QUEEN ROOM","WHEELCHAIR ACCESSIBLE","KING DELUX"};
 	private BookDAO bDao = DAOFactoryb.getBookDAO();
 	JLabel background;
@@ -37,7 +37,7 @@ public class BookingFrame extends JFrame{
 	/**/
 	public BookingFrame()  throws ClassNotFoundException, SQLException{
 		
-		/*File*/
+	
 		try{
             ArrayList<String> tmp=new ArrayList<String>();
             InputStream ips=new FileInputStream("CustomerInfoFixed.dat"); 
@@ -66,9 +66,9 @@ public class BookingFrame extends JFrame{
         }
 		
 	   
-		/*File*/
+		/* file */
 		
-		/*background*/
+		/* background */
 		ImageIcon bg_img = new ImageIcon("images/images.jpg");
 		Image img = bg_img.getImage();
 		Image temp_img = img.getScaledInstance(1200, 700, Image.SCALE_SMOOTH);
@@ -76,7 +76,7 @@ public class BookingFrame extends JFrame{
 		background = new JLabel("",bg_img,JLabel.CENTER);
 		background.setBackground(new Color(0, 128, 0));
 		background.setBounds(0,0,1200,700);
-		/*background*/
+		/* background */
 		
 		Container c = getContentPane();
 		c.setLayout(null);
@@ -104,20 +104,9 @@ public class BookingFrame extends JFrame{
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null,e1.getMessage());
 		}
-		JComboBox fName = new JComboBox(customerName);
-		
-		
-		/*fName = new JTextField();*/
-		fName.setBounds(250,50,150,20);
-		background.add(fName);
-		
-		lname = new JLabel("LAST NAME");
-		lname.setBounds(120,100,100,20);
-		background.add(lname);
-		
-		lName = new JTextField();
-		lName.setBounds(250,100,150,20);
-		background.add(lName);
+		cusName = new JComboBox(customerName);
+		cusName.setBounds(250,50,150,20);
+		background.add(cusName);
 		
 		email = new JLabel("EMAIL");
 		email.setBounds(120,150,80,20);
@@ -213,9 +202,14 @@ public class BookingFrame extends JFrame{
 		cal.addActionListener(new Cal());
 		
 		save = new JButton("SAVE");
-		save.setBounds(250,650,150,40);
+		save.setBounds(150,600,150,40);
 		background.add(save);
 		save.addActionListener(new Save());
+		
+		back = new JButton("BACK TO MAIN MENU");
+		back.setBounds(350,600,180,40);
+		background.add(back);
+		back.addActionListener(new Back());
 		
 		add(background);
 		setVisible(true);
@@ -236,11 +230,11 @@ public class BookingFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if (!isValidData())
 				return;
-			String firstName = (String) fName.getText();
-			String lastName = (String) lName.getText();
+			String names = (String) cusName.getSelectedItem();
 			String roomnumber = (String) number.getText();
+			String roomtype = (String) type.getSelectedItem();
 			
-			Book br = new Book(firstName,lastName,roomnumber);
+			Book br = new Book(names,roomnumber,roomtype);
 			
 			if (bDao.addBook(br)) {
 				String result = "INFORMATION SAVED";
@@ -258,6 +252,16 @@ public class BookingFrame extends JFrame{
 			//if(!Validator.isInteger(ccDetail,"Credit Card")) return false;
 			return true;
 		}
+	}
+	
+	private class Back implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			dispose(); // this will close current login box window
+            Index Iframe = new Index();
+            Iframe.setSize(1200,700);
+			Iframe.setVisible(true);
+		}
+
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {

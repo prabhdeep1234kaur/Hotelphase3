@@ -1,22 +1,15 @@
 package business;
 
 public class Book {
-	private String fname;
-	private String lname;
+	private String name;
 	private String roomnum;
+	private String roomtype;
 	
-	public String getFirstName() {
-		return fname;
+	public String getName() {
+		return name;
 	}
-	public void setFirstName(String fname) {
-		this.fname = fname;
-	}
-	
-	public String getLastName() {
-		return lname;
-	}
-	public void setLastName(String lname) {
-		this.lname = lname;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getRoomNum() {
 		return roomnum;
@@ -24,10 +17,16 @@ public class Book {
 	public void setRoomNum(String roomnum) {
 		this.roomnum = roomnum;
 	}
+	public String getRoomType() {
+		return roomtype;
+	}
+	public void setRoomType(String roomtype) {
+		this.roomtype = roomtype;
+	}
 	
-	public Book(String fname, String lname,String roomnum) {
-		this.fname = fname;
-		this.lname = lname;
+	public Book(String name,String roomnum,String roomtype) {
+		this.name = name;
 		this.roomnum=roomnum;
+		this.roomtype=roomtype;
 	}
 }

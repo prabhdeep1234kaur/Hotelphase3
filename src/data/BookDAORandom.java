@@ -22,11 +22,12 @@ public class BookDAORandom implements BookDAO{
 			count = (int)dataFile.length()/BookConstants.RECORD_SIZE;
 			if(i<=count){
 				dataFile.seek((i-1) * BookConstants.RECORD_SIZE);
-				String roomtype = (readString(dataFile,BookConstants.ROOM_NUMBER_SIZE));
-				String fName = (readString(dataFile,BookConstants.FIRST_NAME_SIZE));
-				String lName = (readString(dataFile,BookConstants.LAST_NAME_SIZE));
 				
-				Book t = new Book(fName,lName,roomtype);
+				String roomtype = (readString(dataFile,BookConstants.ROOM_NUMBER_SIZE));
+				String roomnum = (readString(dataFile,BookConstants.ROOM_TYPE_SIZE));
+				String fName = (readString(dataFile,BookConstants.NAME_SIZE));
+				
+				Book t = new Book(roomtype,roomnum,fName); 
 				return t;
 				}
 		}
@@ -55,18 +56,15 @@ public class BookDAORandom implements BookDAO{
 			dataFile = new RandomAccessFile(testFile,"rw");
 			
 			// Find Number of Records in a File
-			count = (int)dataFile.length()/BookConstants.RECORD_SIZE;
-			for(int i = 0; i <count; i++)
-				{
+			count = (int)(dataFile.length()/BookConstants.RECORD_SIZE);
+			for(int i = 0; i <count; i++){
 				dataFile.seek(i * BookConstants.RECORD_SIZE);
-				dataFile.seek((i-1) * BookConstants.RECORD_SIZE);
 				String roomtype = (readString(dataFile,BookConstants.ROOM_NUMBER_SIZE));
-				String fName = (readString(dataFile,BookConstants.FIRST_NAME_SIZE));
-				String lName = (readString(dataFile,BookConstants.LAST_NAME_SIZE));
-				
-				Book t = new Book(fName, lName,roomtype);
+				String roomnum = (readString(dataFile,BookConstants.ROOM_TYPE_SIZE));
+				String fName = (readString(dataFile,BookConstants.NAME_SIZE));
+				Book t = new Book(roomtype,roomnum,fName);
 				books.add(t);
-				}
+			}
 		}catch (FileNotFoundException e) {
 			System.err.println("ROOM NOT FOUND ------");
 			e.printStackTrace();
@@ -94,9 +92,9 @@ public class BookDAORandom implements BookDAO{
 			dataFile = new RandomAccessFile(testFile, "rw");
 			count = (int) dataFile.length() / BookConstants.RECORD_SIZE;
 			dataFile.seek(count * BookConstants.RECORD_SIZE);
-			writeString(dataFile, BookConstants.FIRST_NAME_SIZE, book.getFirstName());
-			writeString(dataFile, BookConstants.LAST_NAME_SIZE, book.getLastName());
 			writeString(dataFile, BookConstants.ROOM_NUMBER_SIZE, book.getRoomNum());
+			writeString(dataFile, BookConstants.ROOM_TYPE_SIZE, book.getRoomType());
+			writeString(dataFile, BookConstants.NAME_SIZE, book.getName());
 			//dataFile.writeString(room.getRoomNum());
 			success = true;
 		} catch (FileNotFoundException e) {

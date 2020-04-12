@@ -91,15 +91,27 @@ public class DBMain {
 	
 	//update user
 	public void updateUser(String userName, int user_id) throws Exception{
-		try {
-			 String query = "update hotel_users set username='"+userName+"' and user_id="+user_id;
-		     PreparedStatement preparedStmt = conn.prepareStatement(query);
-		     preparedStmt.execute();
-		     this.refresh();
-		     JOptionPane.showMessageDialog(null, "User Updated Successfully ");
-		} catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString());
-        }
+		
+		
+		stm = conn.createStatement();
+        String querymain = "select * from hotel_users where username='"+userName+"' and user_id="+user_id;
+        
+        rs = stm.executeQuery(querymain);
+		if(!rs.next()) {
+			JOptionPane.showMessageDialog(null,"User not found");
+		}else {
+			try {
+				 String query = "update hotel_users set username='"+userName+"' and user_id="+user_id;
+			     PreparedStatement preparedStmt = conn.prepareStatement(query);
+			     preparedStmt.execute();
+			     this.refresh();
+			     JOptionPane.showMessageDialog(null, "User Updated Successfully ");
+			} catch (SQLException ex) {
+	            JOptionPane.showMessageDialog(null, ex.toString());
+	        }
+		}
+		
+		
 	}
 	
 	//search users
@@ -118,15 +130,25 @@ public class DBMain {
 	
 	//delete user
 	public void deleteUser(String userName, int user_id) throws Exception{
-		try {
-			 String query = "delete from hotel_users where username='"+userName+"' and user_id="+user_id;
-		     PreparedStatement preparedStmt = conn.prepareStatement(query);
-		     preparedStmt.execute();
-		     this.refresh();
-		     JOptionPane.showMessageDialog(null, "User Deleted Successfully ");
-		} catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString());
-        }
+		
+		stm = conn.createStatement();
+        String querymain = "select * from hotel_users where username='"+userName+"' and user_id="+user_id;
+        
+        rs = stm.executeQuery(querymain);
+		if(!rs.next()) {
+			JOptionPane.showMessageDialog(null,"User not found");
+		}
+		else {
+			try {
+				 String query = "delete from hotel_users where username='"+userName+"' and user_id="+user_id;
+			     PreparedStatement preparedStmt = conn.prepareStatement(query);
+			     preparedStmt.execute();
+			     this.refresh();
+			     JOptionPane.showMessageDialog(null, "User Deleted Successfully ");
+			} catch (SQLException ex) {
+	            JOptionPane.showMessageDialog(null, ex.toString());
+	        }
+		}
 	}
 	
 	

@@ -12,6 +12,7 @@ import data.DAOFactory;
 import data.DBCustomer;
 import data.RoomDAO;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class RoomPanel extends JFrame{
 	private RoomDAO roomDAO = DAOFactory.getRoomDAO();
@@ -77,38 +78,57 @@ public class RoomPanel extends JFrame{
 		
 		butSave = new JButton("SAVE");
 		butSave.setBounds(150,100,100,30);
+		
+		JLabel lblRoomNumber = new JLabel("ROOM NUMBER");
+		lblRoomNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JLabel lblRoomType = new JLabel("ROOM TYPE");
+		lblRoomType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JLabel lblRoomCondition = new JLabel("ROOM CONDITION");
+		lblRoomCondition.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(22)
-					.addComponent(number, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(type, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(rdbtnNewRadioButton)
-					.addGap(5)
-					.addComponent(rdbtnNewRadioButton_1)
-					.addGap(5)
-					.addComponent(butSave))
+					.addGap(199)
+					.addComponent(butSave)
+					.addContainerGap(180, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(102)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblRoomNumber)
+						.addComponent(lblRoomType, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblRoomCondition, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(rdbtnNewRadioButton_1)
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(number, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(rdbtnNewRadioButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(type, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+					.addGap(92))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(6)
-					.addComponent(number, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(6)
-					.addComponent(type, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(5)
-					.addComponent(rdbtnNewRadioButton))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(5)
-					.addComponent(rdbtnNewRadioButton_1))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(5)
-					.addComponent(butSave))
+					.addGap(57)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(number, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblRoomNumber))
+					.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(type, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblRoomType, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(rdbtnNewRadioButton)
+						.addComponent(lblRoomCondition, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(rdbtnNewRadioButton_1)
+					.addGap(33)
+					.addComponent(butSave)
+					.addGap(42))
 		);
 		panel.setLayout(gl_panel);
 		butSave.addActionListener(new SaveButtonHandler());
@@ -146,7 +166,4 @@ public class RoomPanel extends JFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500,250);
 	}
-	
-	
-	
 }
