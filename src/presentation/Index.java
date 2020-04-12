@@ -58,7 +58,7 @@ public class Index  extends JFrame{
 		rooms.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,ActionEvent.CTRL_MASK));
 		
 		
-		JMenuItem exit_b = new JMenuItem("Exit");
+		JMenuItem exit_b = new JMenuItem("Logout");
 		exit_b.setMnemonic(KeyEvent.VK_X);
 		exit_b.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK));
 		exit_b.addActionListener(new ExitEventHandler());
@@ -95,7 +95,10 @@ public class Index  extends JFrame{
 	}
 	private class ExitEventHandler implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            System.exit(0);
+        	dispose(); // this will close current login box window
+            LandingPage Iframe = new LandingPage();
+            Iframe.setSize(500,500);
+			Iframe.setVisible(true);
         }
 	}
 	

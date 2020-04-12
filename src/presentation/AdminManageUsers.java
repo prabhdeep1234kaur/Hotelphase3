@@ -233,8 +233,12 @@ public class AdminManageUsers  extends JFrame{
 		JButton btnBackToMain = new JButton("Back To Main Menu");
 		btnBackToMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LandingPage frame = new LandingPage();
-				frame.setSize(450,400);
+				
+				dispose(); // this will close current login box window
+				AdminMain frame = new AdminMain();
+				frame.setTitle("Admin Panel");
+				frame.setLocationRelativeTo(null);
+				frame.setSize(500,500);
 				frame.setVisible(true);
 			}
 		});

@@ -105,6 +105,7 @@ public class LandingPage  extends JFrame{
 				try {
 					if(result.isBeforeFirst()) {
 						while (result.next()) {
+							dispose(); // this will close current login box window
 							if(loginType == 2) { //front desk
 								Index Iframe = new Index();
 								Iframe.setSize(1000,700);
@@ -114,9 +115,8 @@ public class LandingPage  extends JFrame{
 								Iframe.setSize(500,500);
 								Iframe.setVisible(true);
 							}
-//							System.exit(0); // stop program
-//							frame.dispose(); // close window
-//							frame.setVisible(false); // hide window
+							 
+							
 						
 						}
 					}else {

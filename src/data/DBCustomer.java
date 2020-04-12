@@ -114,4 +114,7 @@ public class DBCustomer {
         }
 		return rs;
 	}
+    
+    /*****************booking **********************/
+   
 }

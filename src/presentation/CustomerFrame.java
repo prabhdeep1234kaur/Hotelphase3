@@ -237,6 +237,22 @@ public class CustomerFrame extends JFrame{
 		del.setBackground(Color.red);
 		background.add(del);
 		
+		
+		JButton mainindex = new JButton("Index Page");
+		mainindex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose(); // this will close current login box window
+				Index frame = new   Index();
+				frame.setTitle("Welcome");
+				frame.setLocationRelativeTo(null);
+				
+				frame.setVisible(true);
+			}
+		});
+		mainindex.setBounds(480,500,100,40);
+		mainindex.setBackground(Color.red);
+		background.add(mainindex);
+		
 		//buttons listeners
 		add.addActionListener(new SaveButtonHandler());
 		btnFindButton.addActionListener(new FindButtonHandler());

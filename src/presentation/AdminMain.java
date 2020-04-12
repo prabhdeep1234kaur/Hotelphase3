@@ -27,15 +27,30 @@ public class AdminMain extends JFrame{
 		JButton btnManUsers = new JButton("Manage Users");
 		btnManUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdminManageUsers Iframe = new AdminManageUsers();
-				Iframe.setSize(500,500);
-				Iframe.setVisible(true);
+				
+				
+				 dispose(); // this will close current login box window
+				 AdminManageUsers frame = new AdminManageUsers();
+				
+				frame.setLocationRelativeTo(null);
+				frame.setSize(700,700);
+				frame.setVisible(true);
 			}
 		});
 		btnManUsers.setBounds(112, 134, 141, 21);
 		getContentPane().add(btnManUsers);
 		
 		JButton btnManRoom = new JButton("Manage Rooms");
+		btnManRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 dispose(); // this will close current login box window
+				 AdminManageRoom frame = new AdminManageRoom();
+				
+				frame.setLocationRelativeTo(null);
+				frame.setSize(400,400);
+				frame.setVisible(true);
+			}
+		});
 		btnManRoom.setBounds(112, 182, 141, 21);
 		getContentPane().add(btnManRoom);
 		
@@ -43,9 +58,14 @@ public class AdminMain extends JFrame{
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Logging out..");
-				LandingPage Iframe = new LandingPage();
-				Iframe.setSize(500,500);
-				Iframe.setVisible(true);
+				
+				
+				dispose(); // this will close current login box window
+				LandingPage frame = new LandingPage();
+				
+				frame.setLocationRelativeTo(null);
+				frame.setSize(500,500);
+				frame.setVisible(true);
 			}
 		});
 		btnLogout.setBounds(282, 134, 85, 21);

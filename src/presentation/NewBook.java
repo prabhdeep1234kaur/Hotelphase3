@@ -3,10 +3,19 @@ package presentation;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import data.DBCustomer;
+import data.DBMain;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 public  class NewBook  extends JFrame{
 	private JLabel heading;
@@ -19,18 +28,20 @@ public  class NewBook  extends JFrame{
 	private JButton del;
 	private JButton add;
 
-	public NewBook() {
+	private DBCustomer db=null;
+	ResultSet result;
+	public NewBook() throws Exception {
 		Font font = new Font("Comic Sans MS",Font.BOLD,30);
 
 		/*background*/
-		setSize(400,500);
+		setSize(773,548);
 		ImageIcon bg_img = new ImageIcon("images/new_book.jpg");
 		//image resize
 		Image img = bg_img.getImage();
 		Image temp_img = img.getScaledInstance(1200, 700, Image.SCALE_SMOOTH);
 		bg_img = new ImageIcon(temp_img);
 		JLabel background = new JLabel("",bg_img,JLabel.CENTER);
-		background.setBounds(0,0,900,600);
+		background.setBounds(0,0,860,646);
 
 
 		/*Header*/
@@ -48,6 +59,43 @@ public  class NewBook  extends JFrame{
 		fname = new JLabel("FIRST NAME");
 		fname.setBounds(400,100,100,20);
 		background.add(fname,BorderLayout.CENTER);
+		
+		//
+		/*Vector comboBoxItems=new Vector();
+	    
+	    final DefaultComboBoxModel model = new DefaultComboBoxModel(comboBoxItems);
+	   
+		db=new DBCustomer();
+		try {
+			result = db.getAllCustomer();
+			if(result.next()) {
+				 int i=0;
+				 //ComboBoxModel strings;
+				 //ArrayList<String> strings = new ArrayList<String>();
+				 
+				 while (result.next()) {
+					 i ++;
+					 comboBoxItems.add(result.getString("first_name"));
+				 }
+				 //JOptionPane.showMessageDialog(null, i);
+				 //fnamm.addItem(addNames); 
+			}else {
+				JOptionPane.showMessageDialog(null, "No Guests Found. ");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null,e1.getMessage());
+		}
+			
+		 JComboBox fnamm = new JComboBox(model);
+		    
+		//JComboBox fnamm = new JComboBox();
+		fnamm.setBounds(500,100,190,25);
+		background.add(fnamm);*/
+		
+		
+		
+		
 
 		tFname = new JTextField();
 		tFname.setBounds(500,100,190,25);
@@ -138,6 +186,7 @@ public  class NewBook  extends JFrame{
 		background.add(out_month);
 		
 		String out_y[] = {"2018","2019","2020","2021"};
+		getContentPane().setLayout(null);
 		JComboBox out_year = new JComboBox(out_y);
 		out_year.setBounds(700,400,100,25);
 		background.add(out_year);
@@ -163,18 +212,39 @@ public  class NewBook  extends JFrame{
 		del.setBounds(530,550,100,20);
 		del.setBackground(Color.red);
 		background.add(del);
+		
+		
+		JButton mainp = new JButton("Main Page");
+		mainp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 dispose(); // this will close current login box window
+				 Index iframe = new Index();
+				iframe.setTitle("Admin Panel");
+				iframe.setLocationRelativeTo(null);
+				iframe.setVisible(true);
+			}
+		});
+		mainp.setBounds(530,600,100,20);
+		mainp.setBackground(Color.orange);
+		background.add(mainp);
+
 
 		//background.add(bookPanel);
 		heading.add(name);
-		add(background);
-		background.add(name);
+		getContentPane().add(background);
+		background.add(heading);
+		
+		db=new DBCustomer();
+		
+		
+		
 		//background.add(bookPanel);
 		setVisible(true);
 		add.addActionListener(new SaveButtonHandler());
 		del.addActionListener(new SaveButtonHandler());
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
 		// TODO Auto-generated method stub
 		NewBook frame = new NewBook();
 		frame.setTitle("New Booking");
@@ -188,7 +258,7 @@ public  class NewBook  extends JFrame{
 
 	private class SaveButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-
+			
 			//extracting value from GUI
 			String cusfname = tFname.getText();
 			String cuslname = tLname.getText();
@@ -220,5 +290,4 @@ public  class NewBook  extends JFrame{
 			return true;
 		}
 	}
-
 }

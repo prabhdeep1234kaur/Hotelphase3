@@ -102,6 +102,7 @@ public class DBMain {
         }
 	}
 	
+	//search users
 	public ResultSet SeachUser(String userName) throws Exception{
 		
 		try {
@@ -136,5 +137,62 @@ public class DBMain {
 		rs.first();
 	}
 	
+	//manage rooms : add room type
+	public int addRoomType(String newRoomType) throws SQLException {
+		int count = 0;
+		//get value
+		stm = conn.createStatement();
+        String querymain = "select MAX(ROOM_TYPE_ID) as ROOM_TYPE_ID from hotel_room_types";
+        
+        rs = stm.executeQuery(querymain);
+		
+    	while(rs.next()) {
+    		int ss = rs.getInt("ROOM_TYPE_ID");
+    		String query = "Insert into hotel_room_types values (?,?)"; 
+    		PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+    	     preparedStmt.setInt(1,ss+1);
+    	     preparedStmt.setString(2,newRoomType);
+    	     preparedStmt.execute();
+    	     this.refresh();
+    	}
+	    return count;
+		
+	}
+	
+	//get all room types
+	public ResultSet getAllRoomType(){
+		
+		try {
+			stm = conn.createStatement();
+            String query = "select * from hotel_room_types order by room_type_id asc";
+            rs = stm.executeQuery(query);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString() + "\n error coming from returning DB Operation");
+        }
+		return rs;
+	}
+	
+	//delete the room
+	public void deleteRoomType(String rtype) throws Exception{
+		
+		//check if the type exists or not
+		stm = conn.createStatement();
+		String query_chk = "select * from hotel_room_types where room_type = '"+rtype+"'";
+		rs = stm.executeQuery(query_chk);
+		
+		if(!rs.next()) {
+			JOptionPane.showMessageDialog(null, "Room Type not found ");
+		}
+		try {
+			 String query = "delete from hotel_room_types where room_type='"+rtype+"' and room_type_id ="+rs.getInt("room_type_id");
+		     PreparedStatement preparedStmt = conn.prepareStatement(query);
+		     preparedStmt.execute();
+		     this.refresh();
+		     JOptionPane.showMessageDialog(null, "Type Deleted Successfully ");
+		} catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, ex.toString());
+       }
+	}
 	
 }
