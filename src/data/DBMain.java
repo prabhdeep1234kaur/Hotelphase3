@@ -93,15 +93,9 @@ public class DBMain {
 	public void updateUser(String userName, int user_id) throws Exception{
 		
 		
-		stm = conn.createStatement();
-        String querymain = "select * from hotel_users where username='"+userName+"' and user_id="+user_id;
-        
-        rs = stm.executeQuery(querymain);
-		if(!rs.next()) {
-			JOptionPane.showMessageDialog(null,"User not found");
-		}else {
+		
 			try {
-				 String query = "update hotel_users set username='"+userName+"' and user_id="+user_id;
+				 String query = "update hotel_users set username='"+userName+"' where user_id="+user_id;
 			     PreparedStatement preparedStmt = conn.prepareStatement(query);
 			     preparedStmt.execute();
 			     this.refresh();
@@ -109,7 +103,6 @@ public class DBMain {
 			} catch (SQLException ex) {
 	            JOptionPane.showMessageDialog(null, ex.toString());
 	        }
-		}
 		
 		
 	}
